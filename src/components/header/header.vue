@@ -1,7 +1,7 @@
 <template>
 	<div class="header">
 		<span class="back" v-show="showBack" v-on:click="goBack">返回</span>
-		<span class="title">伟易博</span>
+		<span class="title">Ace</span>
 	</div>
 </template>
 
