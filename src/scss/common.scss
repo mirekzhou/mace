@@ -1,0 +1,49 @@
+.left {
+	float: left;
+}
+
+.right {
+	float: right;
+}
+
+.clear {
+    clear:both; 
+    height: 0; 
+    line-height: 0; 
+    font-size: 0;
+}
+
+html {
+    font-size: 100px;
+}
+
+body {
+	font-family: "My Font", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
+	margin: 0;
+	padding: 0;
+    font-size: 12px;
+}
+
+div,
+article,
+aside,
+body,
+footer,
+header,
+hgroup,
+nav,
+section,
+ul,
+p,
+li {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+.page {
+    position: fixed;
+    top: .44rem;
+    bottom: .48rem;
+    width: 100%;
+}

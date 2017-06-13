@@ -1,0 +1,362 @@
+<template>
+	<div class="game-list" @scroll="processScroll">
+		<div class="ul" :style="{paddingTop: paddingTop +'px', paddingBottom: paddingBottom +'px'}">
+			<game-item  v-for          =  "item in previewList"
+						:gameId        =  "item.Id"
+						:identify      =  "item.GameIdentify"
+						:isTry         =  "item.IsTry"
+						:gameType      =  "item.GameTypeText_EN"
+						:platform      =  "item.Api.GamePlatform"
+						:cnname        =  "item.Title"
+						:showJackpots  =  "item.ShowJackpots"
+						:imageUrl      =  "item.ImageUrl"
+						:collected     =  "false"
+						key            =  "item">
+			</game-item>
+		</div>
+
+		<div class="load-more-gif" v-show="showLoading">{{loadingText}}</div>
+	</div>
+</template>
+
+<script>
+	import { mapState } from 'vuex';
+	import Config from '../../config/config.js';
+	import Service from '../../service/service.js';
+	import gameItem from './gameItem';
+
+	export default {
+		name: 'game-list',
+
+		props: [
+			'platform',
+			'category'
+		],
+		
+		data: function () {
+			return {
+				gameList       :  [],
+				pageIndex      :  0,        //当前页
+				pageSize       :  48,       //每页游戏数量
+				showLoading    :  false,
+				loadingText    :  'loading...',
+
+				paddingTop     :  0,
+				paddingBottom  :  0,
+				previewList    :  [],
+				gameItemHeight :  130,
+				colPerRow      :  0,        //每行游戏数量
+				gameTotalCount :  0,        //总共游戏数量
+				gameTotalRow   :  0,        //总共行数
+				lastScrollTop  :  null,     //上次scrollTop
+				rowsInWindow   :  0,        //手机屏幕可以显示的行数
+				topRows        :  0,        //顶部行数
+				bottomRows     :  0,        //底部行数
+				renderDistance :  0,
+				from           :  0,
+				to             :  0,
+				canScroll      :  true
+			}
+		},
+
+		components: {
+			'game-item': gameItem
+		},
+
+		watch: {
+			platform: function () {
+				this.previewList = [];
+				this.pageIndex   = 0;
+				this.loadingText = 'loading';
+				this.canScroll   = true;
+				this.getGameList();
+			},
+
+			category: function () {
+				this.previewList = [];
+				this.pageIndex = 0;
+				this.loadingText = 'loading';
+				this.canScroll   = true;
+				this.getGameList();
+			}
+		},
+
+		mounted () {
+			this.init();
+		},
+
+		methods: {
+			init: function () {
+				this.rowsInWindow   = Math.floor(this.$el.offsetHeight / this.gameItemHeight);
+				this.topRows        = this.rowsInWindow * 2;
+				this.bottomRows     = this.rowsInWindow;
+				this.renderDistance = this.rowsInWindow * this.gameItemHeight;
+				this.getColPerRow();
+				this.initPreviewList();
+			},
+
+			/*
+			**  初始化previewList
+			*/
+			initPreviewList: function () {
+				var i;
+				var previewRows  = this.rowsInWindow * 4;
+				var previewCount = previewRows * this.colPerRow;
+
+				for (i = 0; i < previewCount; i++) {
+					this.previewList.push({
+						Id: '--',
+						GameIdentify: '--',
+						IsTry: 'false',
+						GameTypeText_EN: '--',
+						Title: '--',
+						ShowJackpots: '--',
+						ImageUrl: '--',
+						Api: {
+							GamePlatform: '--'
+						}
+					});
+				}
+			},
+
+			/*
+			**  设置previewList
+			*/
+			setPreviewList: function (from, to) {
+				var i;
+
+				this.previewList = [];
+
+				for (i = from; i < to; i++) {
+					this.previewList.push(this.gameList[i]);
+				}
+			},
+
+			/*
+			** 根据屏幕大小获取每行的游戏数目
+			*/
+			getColPerRow: function () {
+				if (this.$el.offsetWidth < 375) {
+					this.colPerRow = 2;
+				} else {
+					this.colPerRow = 3;
+				}
+			},
+
+			/*
+			** 处理滚动事件
+			*/
+			processScroll: function () {
+				var to;
+				var from;
+				var displayCount;
+				var scrollTop     = this.$el.scrollTop;
+				var ulHeight      = this.$el.querySelectorAll('.ul')[0].offsetHeight;
+				var contentHeight = this.$el.offsetHeight;
+
+				if (this.lastScrollTop === null || Math.abs(scrollTop - this.lastScrollTop) > this.renderDistance) {
+					console.log('this.lastScrollTop reset....');
+				  	this.lastScrollTop = scrollTop;
+				} else {
+					//当底部的高度小于一行游戏高度的时候， 加载新数据
+					console.log('ulHeight - scrollTop - contentHeight = ' + (ulHeight - scrollTop - contentHeight));
+					if (this.to === this.gameList.length && ulHeight - scrollTop - contentHeight < this.gameItemHeight) {
+						console.log('哈哈');
+						if (this.canScroll) {
+							console.log('嘿嘿');
+						 	this.loadmore(this.from, this.to);
+						}
+					}
+				  	return;
+				}
+				console.log('scrollTop = ' + scrollTop);
+				console.log('data reset.....');
+				from = (parseInt(scrollTop / this.gameItemHeight) - this.topRows) * this.colPerRow;
+				from = from < 0?0:from;
+				to   = from + this.rowsInWindow * 4 * this.colPerRow;
+				to   = to > this.gameList.length?this.gameList.length : to; 
+				this.from          = from;
+				this.to            = to;
+				this.paddingTop    = (from / this.colPerRow) * this.gameItemHeight;
+				this.paddingBottom = ((this.gameList.length - to) / this.colPerRow) * this.gameItemHeight;
+
+				this.setPreviewList(from, to);
+
+				this.$nextTick(() => {
+					var scrollTop     = this.$el.scrollTop;
+					var ulHeight      = this.$el.querySelectorAll('.ul')[0].offsetHeight;
+					var contentHeight = this.$el.offsetHeight;
+
+					if (to === this.gameList.length && ulHeight - scrollTop - contentHeight < 0) {
+						if (this.canScroll) {
+							this.loadmore(this.from, this.to);
+						}
+					}
+				});
+			},
+
+			loadmore(from, to) {
+				if (!this.canLoadmore) {
+					return;
+				}
+
+				this.canLoadmore = false;
+				this.pageIndex++;
+				this.getGameList();
+			},
+
+			/*
+			**  获取游戏数据
+			*/
+			getGameList: function (cb) {
+				var opt;
+				var callback;
+				var storageId;
+				var that = this;
+
+				if (!this.platform || this.category == '--') {
+					return;
+				}
+
+				this.showLoading = true;
+
+				if (this.getDataFromLocalStorage()) {
+					return;
+				}
+
+				callback = function (data) {
+					if (data.StatusCode && data.StatusCode != 0) {
+						alert(data.Message);
+						return;
+					}
+
+					that.canLoadmore    = true;
+					that.gameTotalCount = data.count;
+					that.gameTotalRow   = Math.ceil(data.count / that.colPerRow);
+
+					that.setDataToLocalStorage(data);
+					that.setGameList(data.list);
+				};
+
+				opt  =  {
+					url: Config.urls.getGameList,
+					data: {
+						platform   : this.platform,
+						categoryId : this.category,
+						pageIndex  : this.pageIndex,
+						pageSize   : this.pageSize,
+						isMobile   : true
+					}
+				};
+
+				Service.get(opt, callback);
+			},
+
+			/*
+			**  从localStorage获取游戏数据
+			*/
+			getDataFromLocalStorage: function () {
+				var count;
+				var data;
+				var categoryId;
+				var storageId;
+				var gameTotalCountId;
+
+				if (this.category == '') {
+					categoryId = 'all';
+				} else {
+					categoryId = this.category;
+				}
+
+				storageId           = 'slot|' + this.platform + '|' + categoryId + '|' + this.pageIndex;
+				gameTotalCountId    = 'slot|' + this.platform + '|' + categoryId + '|count';
+				data                = localStorage.getItem(storageId);
+				count               = localStorage.getItem(gameTotalCountId);
+
+				if (data && this.gameTotalCount) {
+					data = JSON.parse(data);
+					this.setGameList(data);
+					this.gameTotalCount = count;
+					this.gameTotalRow   = Math.ceil(count / this.colPerRow);
+					return true;
+				}
+
+				return false;
+			},
+
+			/*
+			**  设置游戏数据到localstorage
+			*/
+			setDataToLocalStorage: function (data) {
+				var categoryId;
+				var storageId;
+				var gameTotalCountId;
+
+				if (data.length <= 0) {
+					return;
+				}
+
+				if (this.category == '') {
+					categoryId = 'all';
+				} else {
+					categoryId = this.category;
+				}
+
+				//存储游戏data
+				storageId = 'slot|' + this.platform + '|' + categoryId + '|' + this.pageIndex;
+				localStorage.setItem(storageId, JSON.stringify(data.list));
+
+				//存储游戏count
+				gameTotalCountId = 'slot|' + this.platform + '|' + categoryId + '|count';
+				localStorage.setItem(gameTotalCountId, JSON.stringify(data.count));
+			},
+
+			setGameList: function (data) {
+				this.showLoading = false;
+
+				if (this.pageIndex == 0) {
+					this.gameList = data;
+				} else {
+					this.gameList = this.gameList.concat(data);
+				}
+
+				if (this.gameList.length >= this.gameTotalCount) {
+					//this.showLoading = true;
+					this.loadingText = 'No more data';
+					this.canScroll   = false;
+				}
+
+				this.processScroll();
+			}
+		}
+	}
+</script>
+
+<style lang="scss" scoped>
+	.game-list {
+		padding: .2rem .1rem;
+		width: 100%;
+		height: 100%;
+		overflow-y: scroll;
+		
+		.ul {
+			box-sizing: border-box;
+			display: flex;
+			flex-direction: row;
+			flex-wrap: wrap;
+			justify-content: space-around;
+			text-align: left;
+		}
+
+		.load-more-gif {
+		    width: 100%;
+		    height: 44px;
+		    text-align: center;
+		    line-height: 44px;
+		    background: #fff;
+		    border-top: none;
+		    color: #48B884;
+		}
+
+	}
+</style>
