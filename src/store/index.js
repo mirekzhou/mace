@@ -47,7 +47,10 @@ const state = {
 	slotPlatform           :   '',     //电子游戏平台
 	slotCategoryId         :   '',     //电子游戏categoryId
 	slotCategoryIndex      :   0,      //电子游戏category索引
-	slotCategoryList       :   []      //电子游戏cateGory列表
+	slotCategoryList       :   [],     //电子游戏cateGory列表,
+
+
+	showSideBar            :   false
 };
 
 export default new Vuex.Store({

@@ -1,25 +1,19 @@
 <template>
-	<div class="game-portal">
+	<div class="game-portal" v-touch:right="swipeRight" v-touch:left="swipeLeft">
 		<ul>
-			<li v-for="item in items" v-on:click="jump(item)">
-				<router-link :to="{name: item.route, params:{platform:item.platform}}" tag="div">
-					<img :src="item.src" />
-					<p>{{item.name}}</p>
-				</router-link>
-			</li>
+			<router-link to="/home" tag="li" v-for="item in items" v-on:click="jump(item)" v-bind:class="item.className">
+				<div class="names">
+					<p class="cn-name">{{item.cnName}}</p>
+					<p class="en-name">{{item.enName}}</p>
+				</div>
+			</router-link>
 		</ul>
 	</div>
 </template>
 
 <script>
-	import agImg from "../../assets/img/ag.svg";
-	import bbinImg from "../../assets/img/bbin.svg";
-	import byImg from "../../assets/img/by.svg";
-	import kgImg from "../../assets/img/kg.svg";
-	import mgImg from "../../assets/img/mg.svg";
-	import ppImg from "../../assets/img/pp.svg";
-	import ptImg from "../../assets/img/pt.svg";
-	import sportImg from "../../assets/img/sport.svg";
+	import { mapActions } from 'vuex';
+	import { mapState } from 'vuex';
 
 	export default {
 		name: 'game-portal',
@@ -27,14 +21,10 @@
 		data: function () {
 			return {
 				items: [
-					{src: sportImg, className: 'icon-sport', name: '体育赛事',  type: 'sport',    platform: 'T188',  route: ''},
-					{src: agImg,    className: 'icon-AG',    name: 'AG视讯',    type: 'casino',   platform: 'AG',    route: ''},
-					{src: bbinImg,  className: 'icon-BBIN',  name: 'BBIN视讯',  type: 'casino',   platform: 'BBIN',  route: ''},
-					{src: byImg,    className: 'icon-BY',    name: '捕鱼王',    type: 'slot',     platform: 'AG',    route: ''},
-					{src: ppImg,    className: 'icon-PP',    name: 'PP电子',    type: 'slot',     platform: 'PP',    route: 'slot'},
-					{src: ptImg,    className: 'icon-PT',    name: 'PT电子',    type: 'slot',     platform: 'PT',    route: 'slot'},
-					{src: ptImg,    className: 'icon-MG',    name: 'MG电子',    type: 'slot',     platform: 'MG',    route: 'slot'},
-					{src: kgImg,    className: 'icon-KG',    name: 'KG彩票',    type: 'lottery',  platform: 'KG',    route: ''}
+					{className: 'port-slot',    cnName: '电子游艺',  enName: 'SLOT MACHINE',        route: 'slot'},
+					{className: 'port-live',    cnName: '真人游戏',  enName: 'LIVE CASINO',         route: 'live'},
+					{className: 'port-sport',   cnName: '体育竞技',  enName: 'SPORTS COMPETITION',  route: 'sport'},
+					{className: 'port-lottery', cnName: '捕鱼王',    enName: 'LOTTERY GAME',        route: 'lottery'}
 				]
 			}
 		},
@@ -44,6 +34,14 @@
 				if (!item.route) {
 					window.open('http://www.baidu.com', '_blank', 'location=yes');
 				}
+			},
+
+			swipeLeft: function () {
+				this.$store.dispatch('setSideBarStatus', {data: false});
+			},
+
+			swipeRight: function () {
+				this.$store.dispatch('setSideBarStatus', {data: true});
 			}
 		}
 	}
@@ -56,24 +54,54 @@
 		ul {
 			display: flex;
 			flex-direction: row;
+			justify-content: space-around;
 			flex-wrap: wrap;
 
 			li {
-				display: inline-block;
-				width: 25%;
-				text-align: center;
-				margin-top: .3rem;
+				background-size: 100%;
+				color: #FFF;
+			    display: flex;
+			    flex-direction: row;
+			    align-items: center;
+				margin-top: .2rem;
+				width:  1.69rem;
+				height: 1.53rem;
 
-				.iconfont {
-					color: #914fce;
-    				font-size: .48rem;
-				}
+				.names {
+					text-align: center;
 
-				p {
-					font-size: .14rem;
-					color: #333;
-					margin-top: .05rem;
+					.cn-name {
+						display: inline-block;
+						font-size: .18rem;
+						width: 100%;
+					}
+
+					.en-name {
+						display: inline-block;
+						font-size: .14rem;
+						width: 100%;
+					}
 				}
+			}
+
+			.port-slot {
+				background-image: url("../../assets/img/slot.svg");
+				background-size: 100%;
+			}
+
+			.port-live {
+				background-image: url("../../assets/img/live.svg");
+				background-size: 100%;
+			}
+
+			.port-sport {
+				background-image: url("../../assets/img/sport.svg");
+				background-size: 100%;
+			}
+
+			.port-lottery {
+				background-image: url("../../assets/img/lottery.svg");
+				background-size: 100%;
 			}
 		}
 	}

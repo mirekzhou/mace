@@ -3,16 +3,16 @@
 		<div class="swiper-zone">
 		    <swiper :options="swiperOption">
 		        <swiper-slide v-for="banner in banners" key="banner">
-		        	<img :src="banner" style="width: 100%; height:1.6rem !important">
+		        	<img :src="banner" style="width: 100%">
 		        </swiper-slide>
 		    </swiper>
 		</div>
 
 		<breaking-news></breaking-news>
 		<game-portal></game-portal>
-		<div class="clear-cache">
+<!-- 		<div class="clear-cache">
 			<mu-raised-button label="清除缓存" class="demo-raised-button" @click="clearCache" primary/></mu-raised-button>
-		</div>
+		</div> -->
 	</div>
 </template>
 
@@ -23,6 +23,7 @@
 	import breakingNews from './breakingNews';
 	import gamePortal from './gamePortal';
 	import raisedButton from 'muse-ui/src/raisedButton/raisedButton.vue';
+	import homeBanner from '../../assets/img/home-banner.png';
 
 	export default {
 		name: 'home',
@@ -36,9 +37,7 @@
 		        },
 
 		        banners: [
-		        	'https://ojrcjvo0a.qnssl.com/upload/ad/201705/857/b0bdd1a887924aeebfd4d7311e73d2d9.jpg',
-		        	'https://ojrcjvo0a.qnssl.com/upload/ad/201705/457/aafd31c1d56d46f090f77c3585e9e03a.jpg',
-		        	'https://ojrcjvo0a.qnssl.com/upload/ad/201705/857/b0bdd1a887924aeebfd4d7311e73d2d9.jpg'
+		        	homeBanner, homeBanner, homeBanner, homeBanner
 		        ]
 			}
 		},
@@ -76,6 +75,7 @@
 
 <style lang="scss" scoped>
 	.home-page {
+		background-color: #0c1135;
 		overflow: hidden;
 		overflow-y: scroll;
 		padding-bottom: .2rem;

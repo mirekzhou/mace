@@ -175,5 +175,9 @@ export default {
 
 	setSlotPlatform: function ({commit}, opt) {
 		commit('SET_SLOT_PLATFORM', {data: opt.data});
+	},
+
+	setSideBarStatus: function ({commit}, opt) {
+		commit('SET_SIDE_BAR_STATUS', {data: opt.data});
 	}
 };

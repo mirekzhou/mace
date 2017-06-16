@@ -72,5 +72,9 @@ export default {
 
 	SET_SLOT_PLATFORM: function (state, opt) {
 		state.slotPlatform = opt.data;
-	}
+	},
+
+	SET_SIDE_BAR_STATUS: function (state, opt) {
+		state.showSideBar = opt.data;
+	},
 };

@@ -23,5 +23,6 @@
 
 <style lang="scss" scoped>
 	.notifier {
+		
 	}
 </style>

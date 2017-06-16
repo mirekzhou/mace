@@ -1,23 +1,29 @@
 <template>
-	<div id="app">
-		<my-header></my-header>
+	<div id="app" v-bind:class="{'showSideBar': showSideBar}">
+		<side-bar></side-bar>
 
-		<transition name="fade">
-		    <keep-alive>
-		      	<router-view></router-view>
-		    </keep-alive>
-		</transition>
+		<div class="container">
+			<my-header></my-header>
 
-		<my-footer></my-footer>
-		<login></login>
+			<transition name="fade">
+			    <keep-alive>
+			      	<router-view></router-view>
+			    </keep-alive>
+			</transition>
+
+			<my-footer></my-footer>
+			<login></login>
+		</div>
 	</div>
 </template>
 
 <script>
 	import { mapActions } from 'vuex';
+	import { mapState } from 'vuex';
 	import header from './components/header/header';
 	import footer from './components/footer';
 	import login from './components/login';
+	import sideBar from './components/sider/sideBar';
 
 	export default {
 		name: 'app',
@@ -30,7 +36,7 @@
 		mounted: function () {
 			this.$store.dispatch('getLoginStatus');
 			this.$store.dispatch('getRegisterConfig');
-			this.$store.dispatch('switchLoginDialog', {status: true});
+			//this.$store.dispatch('switchLoginDialog', {status: true});
 		},
 
 		methods: {
@@ -39,8 +45,15 @@
 		components: {
 			'my-header' : header,
 			'my-footer' : footer,
-			'login'     : login
-		}
+			'login'     : login,
+			'side-bar'  : sideBar
+		},
+
+	  	computed: mapState({
+	  		showSideBar: function (state) {
+	  			return state.showSideBar;
+	  		}
+	  	})
 	}
 </script>
 
@@ -56,8 +69,37 @@
 	body {
 		background-color: #FFF;
 		color: #FFF;
+		width: 100%;
+		height: 100%;
+		overflow: hidden;
 	}
 
 	#app {
+		width: 172%;
+		height: 100%;
+		transition: left .4s;
+		left: -72%;
+		position: fixed;
+
+		.side-bar {
+			display: inline-block;
+			height: 100%;
+			vertical-align: top;
+			width: 41.86%;
+			position: relative;
+		}
+
+		.container {
+			display: inline-block;
+			height: 100%;
+			vertical-align: top;
+			width: 58.14%;
+			margin-left: -5px;
+			position: relative;
+		}
+	}
+
+	.showSideBar {
+		left: 0 !important;
 	}
 </style>

@@ -55,11 +55,13 @@
 	.breaking-news {
 		$news-height: 36px;
 
-		background-color: #f0f0f0;
-		color: #333;
+		color: #FFF;
 		box-sizing: border-box;
 		height: $news-height;
 		width: 100%;
+		margin-top: 0 - $news-height;
+		position: relative;
+		z-index: 2;
 
 		.breaking-news-wrapper {
 			display: flex;
@@ -84,7 +86,7 @@
 				flex-grow: 1;
 				height: $news-height;
 				overflow: hidden;
-				font-size: 13px;
+				font-size: 12px;
 				position: relative;
 
 				ul {
