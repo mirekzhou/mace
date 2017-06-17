@@ -187,7 +187,7 @@
 					.level {
 						color: #06c669;
 						font-size: 10px;
-						margin-top: .05rem;
+						margin-top: .1rem;
 					}
 
 					.balance {
@@ -198,7 +198,7 @@
 						line-height: .25rem;
 						font-size: 15px;
 						color: #ffba13;
-						margin-top: .05rem;
+						margin-top: .1rem;
 					}
 				}
 			}
