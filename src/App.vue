@@ -94,7 +94,7 @@
 			height: 100%;
 			vertical-align: top;
 			width: 55.56%;
-			margin-left: -5px;
+			margin-left: -4px;
 			position: relative;
 		}
 	}

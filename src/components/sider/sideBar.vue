@@ -222,11 +222,12 @@
 			padding-left: .22rem;
 
 			ul {
+				padding-top: .15rem;
 
 				li {
-					font-size: 15px;
-					height: .4rem;
-					line-height: .4rem;
+					font-size: 16px;
+					height: .45rem;
+					line-height: .45rem;
 					display: flex;
 					align-items: center;
 					
