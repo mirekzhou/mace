@@ -75,17 +75,17 @@
 	}
 
 	#app {
-		width: 180%;
+		width: 172%;
 		height: 100%;
 		transition: left .3s;
-		left: -80%;
+		left: -72%;
 		position: fixed;
 
 		.side-bar {
 			display: inline-block;
 			height: 100%;
 			vertical-align: top;
-			width: 44.44%;
+			width: 41.86%;
 			position: relative;
 		}
 
@@ -93,9 +93,9 @@
 			display: inline-block;
 			height: 100%;
 			vertical-align: top;
-			width: 55.56%;
-			margin-left: -4px;
+			width: 58.14%;
 			position: relative;
+			margin-left: -.036rem;
 		}
 	}
 
