@@ -1,5 +1,5 @@
 <template>
-	<div class="game-portal" v-touch:right="swipeRight" v-touch:left="swipeLeft">
+	<v-touch class="game-portal" tag="div" v-on:swiperight="swipeRight" v-on:swipeleft="swipeLeft" v-bind:swipe-options="{direction: 'horizontal'}">
 		<ul>
 			<router-link to="/home" tag="li" v-for="item in items" v-on:click="jump(item)" v-bind:class="item.className">
 				<div class="names">
@@ -8,7 +8,7 @@
 				</div>
 			</router-link>
 		</ul>
-	</div>
+	</v-touch>
 </template>
 
 <script>

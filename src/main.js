@@ -42,6 +42,9 @@ if (isMobile.android()) {
 
 Vue.config.productionTip = true
 
+var VueTouch = require('vue-touch');
+Vue.use(VueTouch, {name: 'v-touch'});   //注意： vue.use一定要在new Vue之前执行!!
+
 /* eslint-disable no-new */
 new Vue({
 	el: '#app',
@@ -62,6 +65,3 @@ if ('addEventListener' in document) {
 function onDeviceReady() {
     window.open = cordova.InAppBrowser.open;
 }
-
-import touch from 'vue-directive-touch';
-Vue.use(touch);

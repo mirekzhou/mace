@@ -29,6 +29,8 @@
     "vue-infinite-scroll": "^2.0.1",
     "vue-loading-spinner": "^1.0.10",
     "vue-material": "^0.7.1",
+    "vue-progress": "^0.2.1",
+    "vue-radial-progress": "^0.2.10",
     "vue-router": "^2.2.0",
     "vue-scroller": "^2.2.0",
     "vue-virtual-scroll-list": "^1.0.5",

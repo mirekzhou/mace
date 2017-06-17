@@ -66,7 +66,6 @@
 
 	  	methods: {
 	  		clearCache: function () {
-	  			console.log('1..');
 	  			localStorage.clear();
 	  		}
 	  	}
@@ -76,8 +75,9 @@
 <style lang="scss" scoped>
 	.home-page {
 		background-color: #0c1135;
-		overflow: hidden;
+		overflow-x: hidden;
 		overflow-y: scroll;
+		-webkit-overflow-scrolling: touch;
 		padding-bottom: .2rem;
 
 		.swiper-zone {
