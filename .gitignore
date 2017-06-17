@@ -4,5 +4,7 @@ dist/
 npm-debug.log
 yarn-error.log
 
-cordova/platforms/
+cordova/platforms/ios/www/
+cordova/platforms/android/assets
+cordova/platforms/android/build
 cordova/www/
