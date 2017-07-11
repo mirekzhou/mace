@@ -105,6 +105,11 @@
 		methods: {
 			closeSideBar: function () {
 				this.$store.dispatch('setSideBarStatus', {data: false});
+			},
+
+			showLogin: function () {
+				this.$store.dispatch('setSideBarStatus', {data: false});
+				this.$store.dispatch('setLoginDialogStatus', {data: true});
 			}
 		},
 

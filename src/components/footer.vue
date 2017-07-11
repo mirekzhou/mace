@@ -1,5 +1,5 @@
 <template>
-	<div class="footer">
+	<div class="footer" v-show="showFooter">
 		<ul>
 			<li>
 				<router-link to="/home" tag="div">
@@ -35,14 +35,22 @@
 
 <script>
 	import '../assets/fonts/iconfont.css';
-
+	import { mapActions } from 'vuex';
+	import { mapState } from 'vuex';
+	
 	export default {
 		name: 'footer',
 		
 		data: function () {
 			return {
 			}
-		}
+		},
+
+	  	computed: mapState({
+	  		showFooter: function (state) {
+	  			return state.showFooter;
+	  		}
+	  	})
 	}
 </script>
 

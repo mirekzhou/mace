@@ -8,6 +8,14 @@ export default {
 		state.loginStatus = opt.status;
 	},
 
+	SET_SHOW_HEADER_STATUS: function (state, opt) {
+		state.showHeader = opt.data;
+	},
+
+	SET_SHOW_FOOTER_STATUS: function (state, opt) {
+		state.showFooter = opt.data;
+	},
+
 	SET_LOGIN_USER_INFO: function (state, opt) {
 		state.loginUserInfo = opt.data;
 	},
@@ -26,10 +34,6 @@ export default {
 
 	SET_PHONE_BETTING_TRY_URL: function (state, opt) {
 		state.phoneBettingTryUrl = opt.url;
-	},
-
-	SET_LOGIN_DIALOG_STATUS: function (state, opt) {
-		state.showLoginDialog = opt.status;
 	},
 
 	SET_REGISTER_DIALOG_STATUS: function (state, opt) {

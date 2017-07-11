@@ -50,6 +50,8 @@
 <script>
 	import myInput from '../plugins/input';
 	import myButton from '../plugins/button';
+	import { mapActions } from 'vuex';
+	import { mapState } from 'vuex';
 
 	export default {
 		name: 'login',
@@ -75,7 +77,13 @@
 				this.username = localStorage.getItem('username') || '';
 				this.userpass = localStorage.getItem('userpass') || '';
 			}
-		}
+		},
+
+	  	computed: mapState({
+	  		showLogin: function (state) {
+	  			return state.showLogin;
+	  		}
+	  	})
 	}
 </script>
 

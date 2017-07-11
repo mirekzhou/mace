@@ -179,5 +179,18 @@ export default {
 
 	setSideBarStatus: function ({commit}, opt) {
 		commit('SET_SIDE_BAR_STATUS', {data: opt.data});
+	},
+
+	setLoginDialogStatus: function ({commit}, opt) {
+		commit('SET_SHOW_HEADER_STATUS', {data: false});
+		commit('SET_SHOW_FOOTER_STATUS', {data: false});
+	}, 
+
+	setShowHeaderStatus: function ({commit}, opt) {
+		commit('SET_SHOW_HEADER_STATUS', {data: opt.data});
+	},  
+
+	setShowFooterStatus: function ({commit}, opt) {
+		commit('SET_SHOW_FOOTER_STATUS', {data: opt.data});
 	}
 };

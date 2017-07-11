@@ -43,6 +43,8 @@ const state = {
 	showAlert              :   false,
 
 	showBack               :   false,
+	showHeader             :   true,
+	showFooter             :   true,
 
 	slotPlatform           :   '',     //电子游戏平台
 	slotCategoryId         :   '',     //电子游戏categoryId

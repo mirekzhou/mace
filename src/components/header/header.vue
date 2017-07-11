@@ -1,5 +1,5 @@
 <template>
-	<div class="header">
+	<div class="header" v-show="showHeader">
 		<span class="show-side-bar" v-on:click="showSider">设置</span>
 		<span class="back" v-show="showBack" v-on:click="goBack">返回</span>
 		<span class="title">伟易博</span>
@@ -40,6 +40,10 @@
 
 	  		showBack: function (state) {
 	  			return state.showBack;
+	  		},
+
+	  		showHeader: function (state) {
+	  			return state.showHeader;
 	  		}
 	  	})
 	}
