@@ -4,7 +4,7 @@
 			   v-bind:value="value"
 			   v-on:input="updateValue($event.target.value)"
 			   v-bind:placeholder="myPlaceholder" 
-			   v-bind:type="type"
+			   v-bind:type="myType"
 			   v-bind:style="styleObject" />
 	</div>
 </template>
@@ -39,15 +39,32 @@
 
 <style lang="scss" scoped>
 	.input {
-		border-bottom: 1px solid rgba(58, 59, 63, 1);
+		background: 0;
+		border: 0;
+		border-bottom: 1px solid #7d7aa7;
 		display: inline-block;
-		
+		height: 45px;
+		line-height: 45px;
+
+		input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill {
+		    background-color: transparent !important;
+		    background-image: none;
+		    color: rgb(0, 0, 0);
+		}
+
+		input::-webkit-input-placeholder, textarea::-webkit-input-placeholder { 
+		    color: #7c79a8;
+		}
+
 		input {
 			background: none;
 			border: 0;
 			color: #9992ae;
 			outline: none;
 			text-indent: 8px;
+		    height: 100%;
+		    display: inline-block;
+		    vertical-align: top;
 		}
 	}
 </style>

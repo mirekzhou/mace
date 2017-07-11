@@ -3,7 +3,7 @@
 		<side-bar></side-bar>
 
 		<div class="container">
-			<my-header></my-header>
+<!-- 			<my-header></my-header>
 
 			<transition name="fade">
 			    <keep-alive>
@@ -11,7 +11,7 @@
 			    </keep-alive>
 			</transition>
 
-			<my-footer></my-footer>
+			<my-footer></my-footer> -->
 			<login></login>
 		</div>
 	</div>

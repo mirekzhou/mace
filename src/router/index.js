@@ -49,6 +49,20 @@ export default new VueRouter({
 			component: function (resolve) {
 				require(['../components/userCenter/userCenter.vue'], resolve);
 			}
+		},
+		{
+			path: '/login',
+			name: 'login',
+			component: function (resolve) {
+				require(['../components/login.vue'], resolve);
+			}
+		},
+		{
+			path: '/register',
+			name: 'register',
+			component: function (resolve) {
+				require(['../components/register.vue'], resolve);
+			}
 		}
 	]
 });

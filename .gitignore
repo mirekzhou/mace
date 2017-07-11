@@ -6,5 +6,6 @@ yarn-error.log
 
 cordova/platforms/ios/www/
 cordova/platforms/android/assets
+cordova/platforms/android/.gradle
 cordova/platforms/android/build
 cordova/www/

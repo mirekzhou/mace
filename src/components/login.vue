@@ -1,218 +1,214 @@
 <template>
-	<div class="login" v-on:keyup.enter="goLogin">
-		<my-dialog :styleObject="dialogStyleObject" :showDialog="showDialog" :showSpinner="showSpinner">
-			<div slot="header" class="login-header">
-				<div class="title">伟易博</div>
-				<div class="register">
-					<span>还没有账号？</span>
-					<span class="register-now" v-on:click="goRegister">立即注册</span>
+	<div class="login">
+		<div class="login-header">
+			<div>伟易博</div>
+		</div>
+
+		<div class="login-body">
+			<div class="login-body-inner">
+				<my-input myPlaceholder="用户名" myType="text" :styleObject="inputStyleObject" v-model="username"></my-input>
+				<my-input myPlaceholder="密码" myType="password" :styleObject="inputStyleObject" v-model="userpass"></my-input>
+				<div class="button do-login">登录</div>
+				<div class="additional-info">
+					<div class="left-info">登录遇到问题？</div>
+					<div class="right-info">账号注册</div>
 				</div>
-				<span class="close" v-on:click="closeDialog">×</span>
 			</div>
+		</div>
 
-			<div slot="body" class="login-body">
-				<span class="input-title">用户名</span>
-				<normal-input 
-					myPlaceholder="请输入您的用户名" 
-					:myStyleObject="inputStyleObject" 
-					v-model="username">	
-				</normal-input>
+		<div class="login-footer">
+			<div class="login-footer-inner">
+				<div class="or">
+					<span class="or-left"></span>
+					<span class="or-text">or</span>
+					<span class="or-right"></span>
+				</div>
 
-				<span class="input-title">密码</span>
-				<normal-input 
-					myType="password"
-					myPlaceholder="请输入您的密码" 
-					:myStyleObject="inputStyleObject"
-					v-model="userpass">
-				</normal-input>
-				<div class="forget-password">忘记密码？</div>
+				<ul>
+					<li>
+						<div class="footer-icon"><i class="iconfont icon-weibo"></i></div>
+						<div class="name">微博</div>
+					</li>
+					<li>
+						<div class="footer-icon"><i class="iconfont icon-wechat"></i></div>
+						<div class="name">微信</div>
+					</li>
+					<li>
+						<div class="footer-icon"><i class="iconfont icon-qq"></i></div>
+						<div class="name">QQ</div>
+					</li>
+					<li>
+						<div class="footer-icon"><i class="iconfont icon-facebook"></i></div>
+						<div class="name">Facebook</div>
+					</li>
+				</ul>
 			</div>
-
-			<div slot="footer" class="login-footer">
-				<div class="button" v-on:click="goLogin">立即登录</div>
-			</div>
-		</my-dialog>
+		</div>
 	</div>
 </template>
 
 <script>
-	import { mapActions } from 'vuex';
-	import { mapState } from 'vuex';
-	import dialog from '../plugins/dialog';
-	import input from '../plugins/input';
-	import Config from '../config/config.js';
-	import Service from '../service/service.js';
+	import myInput from '../plugins/input';
+	import myButton from '../plugins/button';
 
 	export default {
 		name: 'login',
 		
 		data: function () {
 			return {
+				inputStyleObject: {},
 				username: '',
-				userpass: '',
-				verifyCode: '',
-				showSpinner: false,
-
-				dialogStyleObject: {
-					width: '380px',
-					height: '450px',
-					background: 'linear-gradient(to top, #242655 40%, #333676)'
-				},
-
-				inputStyleObject: {
-					width: '320px',
-					height: '32px',
-					border: '1px solid #5d5780',
-				}
+				userpass: ''
 			}
 		},
 
 		components: {
-			'my-dialog': dialog,
-			'normal-input': input
+			'my-input' : myInput
+		},
+
+		mounted: function () {
+			this.getLocalStorage();
 		},
 
 		methods: {
-			goLogin: function () {
-				var callback;
-				var that       =  this;
-				var opt        =  {
-					url: Config.urls.signIn,
-					data: {
-						UserName: this.username,
-						Password: this.userpass,
-						LoginWebSet: window.location.host
-					}
-				};
-
-				callback = function (data) {
-					that.showSpinner = false;
-
-					if (data.StatusCode && data.StatusCode != 0) {
-						alert(data.Message);
-						return;
-					}
-
-		        	that.$store.dispatch('setLoginStatus', {status: true});
-		        	that.$store.dispatch('getLoginUserInfo');
-		        	that.closeDialog();
-				};
-
-				this.showSpinner = true;
-				Service.post(opt, callback);
-			},
-
-			goRegister: function () {
-				this.closeDialog();
-				this.$store.dispatch('switchRegisterDialog', {status: true});
-			},
-
-			resetDialog: function () {
-				this.username   = '';
-				this.userpass   = '';
-				this.verifyCode = '';
-			},
-
-			closeDialog: function () {
-				this.resetDialog();
-				this.$store.dispatch('switchLoginDialog', {status: false});
+			getLocalStorage: function () {
+				this.username = localStorage.getItem('username') || '';
+				this.userpass = localStorage.getItem('userpass') || '';
 			}
-		},
-
-	  	computed: mapState({
-	  		showDialog: function (state) {
-	  			return state.showLoginDialog;
-	  		}
-	  	})
+		}
 	}
 </script>
 
 <style lang="scss" scoped>
 	.login {
-		width: 380px;
-		height: auto;
+		background-image: url("../assets/img/sign-bg.png");
+		background-color: #fffbd4;
+		corlor: #000;
+		width: 100%;
+		height: 100%;
+		padding-top: .4rem;
 		position: relative;
 
 		.login-header {
-			position: relative;
-			height: 180px;
-
-			.title {
-				color: #e9e8ec;
-			    font-size: 40px;
-			    font-weight: bold;
-				text-align: center;
-				padding-top: 62px;
-			}
-
-			.register {
-				font-size: 13px;
-				text-align: center;
-				margin-top: 12px;
-
-				.register-now {
-					color: #e9e8ec;
-					cursor: pointer;
-				}
-			}
-
-			.close {
-				cursor: pointer;
-				position: absolute;
-				top: 5px;
-				right: 15px;
-				font-size: 35px;
-
-				&:hover {
-					color: #e9e8ec;
-				}
-			}
+			width: 100%;
+			height: 1.2rem;
+			line-height: 1.2rem;
+			text-align: center;
+			font-size: .36rem;
+			font-weight: bold;
 		}
 
 		.login-body {
-			padding: 0 30px;
-			font-size: 14px;
-			position: relative;
+			.login-body-inner {
+				width: 2.5rem;
+				margin: 0 auto;
 
-			.input-title {
-				display: inline-block;
-				margin-bottom: 10px;
-			}
-
-			.input {
-				margin-bottom: 20px;
-			}
-
-			.forget-password {
-				width: 100%;
-				text-align: right;
-				cursor: pointer;
-
-				&:hover {
-					color: #e9e8ec;
+				.input {
+					display: block;
+					width: 100%;
 				}
-			}
 
-			.v-spinner {
-				position: absolute;
-				left: 40%;
-				bottom: 0;
+				.do-login {
+					border-radius: .2rem;
+					background-color: #09c469;
+					color: #FFF;
+					font-size: 16px;
+					width: 100%;
+					height: .36rem;
+					line-height: .36rem;
+					text-align: center;
+					margin-top: .5rem;
+				}
+
+				.additional-info {
+					display: flex;
+					flex-direction: row;
+					font-size: 10px;
+					align-items: center;
+					justify-content: space-between;
+					margin-top: .18rem;
+
+					.left-info {
+						text-decoration: underline;
+					}
+
+					.right-info {
+						background-color: #272648;
+						border-radius: .2rem;
+						color: #7c79a8;
+						width: .65rem;
+						height: .24rem;
+						line-height: .24rem;
+						text-align: center;
+					}
+				}
 			}
 		}
 
 		.login-footer {
-			padding: 0 30px;
+			position: absolute;
+			bottom: 0;
+			left: 0;
+			width: 100%;
+			padding-bottom: .25rem;
 
-			.button {
-				background-color: #518743;
-				color: #FFF;
-				cursor: pointer;
-				font-size: 14px;
-				width: 320px;
-				height: 38px;
-				line-height: 38px;
-				text-align: center;
-				margin-top: 15px;
+			.login-footer-inner {
+				width: 2.5rem;
+				margin: 0 auto;
+
+				.or {
+					font-size: 14px;
+					height: .2rem;
+					line-height: .2rem;
+					display: flex;
+					flex-direction: row;
+					justify-content: space-between;
+					align-items: center;
+
+					.or-left {
+						border: 0;
+						height: .02rem;
+						width: 1rem;
+						background-image:-webkit-linear-gradient(to left, #7c79a8, #37355c);
+						background-image:linear-gradient(to left, #7c79a8, #37355c);
+					}
+
+					.or-right {
+						border: 0;
+						height: .02rem;
+						width: 1rem;
+						background-image:-webkit-linear-gradient(to right, #7c79a8, #37355c);
+						background-image:linear-gradient(to right, #7c79a8, #37355c);
+					}
+				}
+
+				ul {
+					list-style: none;
+					display: flex;
+					flex-direction: row;
+					justify-content: space-between;
+					align-items: center;
+					margin-top: .25rem;
+
+					li {
+						width: 20%;
+						display: flex;
+						flex-direction: column;
+						align-items: center;
+
+						.footer-icon {
+							height: .36rem;
+							line-height: .36rem;
+							border: 1px solid #7c79a8;
+							border-radius: 50%;
+							width: .36rem;
+						}
+
+						.name {
+							margin-top: .1rem;
+						}
+					}
+				}
 			}
 		}
 	}

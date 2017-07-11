@@ -1,17 +1,19 @@
 <template>
 	<v-touch class="side-bar" tag="div" v-on:swipeleft="closeSideBar">
 		<div class="side-bar-header">
-			<div class="section1" v-show="loginStatus">
+			<div class="section1" v-show="!loginStatus">
 				<div class="icon-zone">
 					<img src="../../assets/img/head.svg" />
 				</div>
 
 				<div class="button-zone">
-					<div class="button login">登录</div>
+					<router-link to="/login" tag="div">
+						<div class="button login">登录</div>
+					</router-link>
 				</div>
 			</div>
 
-			<div class="section2" v-show="!loginStatus">
+			<div class="section2" v-show="loginStatus">
 				<radial-progress-bar :diameter="80"
 									 :strokeWidth="8"
 				                     :completed-steps="completedSteps"
@@ -35,35 +37,35 @@
 		<div class="side-bar-body">
 			<ul>
 				<li>
-					<img src="../../assets/img/transfer.svg" />
+					<i class="icon iconfont icon-transfer"></i>
 					<span>平台转账</span>
 				</li>
 				<li>
-					<img src="../../assets/img/deposit.svg" />
+					<i class="icon iconfont icon-deposit"></i>
 					<span>闪电充值</span>
 				</li>
 				<li>
-					<img src="../../assets/img/withdrawal.svg" />
+					<i class="icon iconfont icon-withdrawal"></i>
 					<span>快速提现</span>
 				</li>
 				<li>
-					<img src="../../assets/img/message.svg" />
+					<i class="icon iconfont icon-message"></i>
 					<span>我的消息</span>
 				</li>
 				<li>
-					<img src="../../assets/img/game-history.svg" />
+					<i class="icon iconfont icon-history"></i>
 					<span>游戏历史</span>
 				</li>
 				<li>
-					<img src="../../assets/img/message.svg" />
+					<i class="icon iconfont icon-language"></i>
 					<span>语言选择</span>
 				</li>
 				<li>
-					<img src="../../assets/img/fontsize.svg" />
+					<i class="icon iconfont icon-fontsize"></i>
 					<span>字号选择</span>
 				</li>
 				<li>
-					<img src="../../assets/img/help.svg" />
+					<i class="icon iconfont icon-help"></i>
 					<span>帮助中心</span>
 				</li>
 			</ul>
@@ -77,6 +79,7 @@
 </template>
 
 <script>
+	import '../../assets/fonts/iconfont.css';
 	import { mapActions } from 'vuex';
 	import { mapState } from 'vuex';
 	import RadialProgressBar from 'vue-radial-progress';
@@ -231,9 +234,14 @@
 					display: flex;
 					align-items: center;
 					
-					img {
+					.icon {
 						width: .2rem;
 						margin-right: .15rem;
+					}
+
+					span {
+						display: inline-block;
+						margin-bottom: 2px;
 					}
 				}
 			}

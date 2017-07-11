@@ -1,27 +1,31 @@
 <template>
 	<div class="footer">
 		<ul>
-			<li v-on:click="setActiveItem(0)">
+			<li>
 				<router-link to="/home" tag="div">
-					<img :src="homeIconSrc">
+					<i class="icon iconfont icon-home-default icon-default"></i>
+					<i class="icon iconfont icon-home-active icon-active"></i>
 					<p>首页</p>
 				</router-link>
 			</li>
-			<li v-on:click="setActiveItem(1)">
+			<li>
 				<router-link to="/wallet" tag="div">
-					<img :src="walletIconSrc">
+					<i class="icon iconfont icon-wallet-default icon-default"></i>
+					<i class="icon iconfont icon-wallet-active icon-active"></i>
 					<p>钱包</p>
 				</router-link>
 			</li>
-			<li v-on:click="setActiveItem(2)">
+			<li>
 				<router-link to="/promotion" tag="div">
-					<img :src="promoIconSrc">
+					<i class="icon iconfont icon-promo-default icon-default"></i>
+					<i class="icon iconfont icon-promo-active icon-active"></i>
 					<p>优惠</p>
 				</router-link>
 			</li>
-			<li v-on:click="setActiveItem(3)">
+			<li>
 				<router-link to="/userCenter" tag="div">
-					<img :src="myIconSrc">
+					<i class="icon iconfont icon-user-default icon-default"></i>
+					<i class="icon iconfont icon-user-acive icon-active"></i>
 					<p>我的</p>
 				</router-link>
 			</li>
@@ -30,62 +34,13 @@
 </template>
 
 <script>
-	import iconHome from '../assets/img/icon-home.svg';
-	import iconHomeActive from '../assets/img/icon-home-active.svg';
-	import iconPromo from '../assets/img/icon-promo.svg';
-	import iconPromoActive from '../assets/img/icon-promo-active.svg';
-	import iconWallet from '../assets/img/icon-wallet.svg';
-	import iconWalletActive from '../assets/img/icon-wallet-active.svg';
-	import iconCollect from '../assets/img/icon-collect.svg';
-	import iconCollectActive from '../assets/img/icon-collect-active.svg';
-	import iconMy from '../assets/img/icon-my.svg';
-	import iconMyActive from '../assets/img/icon-my-active.svg';
-
-	import muBottomNav from 'muse-ui/src/bottomNav/bottomNav.vue';
-	import muBottomNavItem from 'muse-ui/src/bottomNav/bottomNavItem.vue';
+	import '../assets/fonts/iconfont.css';
 
 	export default {
 		name: 'footer',
 		
 		data: function () {
 			return {
-				bottomNav: 'home',
-				bottomNavColor: 'home',
-				homeIconSrc: iconHomeActive,
-				walletIconSrc: iconWallet,
-				promoIconSrc: iconPromo,
-				myIconSrc: iconMy
-			}
-		},
-
-		components: {
-			'mu-bottom-nav': muBottomNav,
-			'mu-bottom-nav-item': muBottomNavItem
-		},
-
-		methods: {
-			setActiveItem: function (index) {
-				if (index == 0) {
-					this.homeIconSrc   = iconHomeActive;
-					this.walletIconSrc = iconWallet;
-					this.promoIconSrc  = iconPromo;
-					this.myIconSrc     = iconMy;
-				} else if (index == 1) {
-					this.homeIconSrc   = iconHome;
-					this.walletIconSrc = iconWalletActive;
-					this.promoIconSrc  = iconPromo;
-					this.myIconSrc     = iconMy;
-				} else if (index == 2) {
-					this.homeIconSrc   = iconHome;
-					this.walletIconSrc = iconWallet;
-					this.promoIconSrc  = iconPromoActive;
-					this.myIconSrc     = iconMy;
-				} else  if (index == 3) {
-					this.homeIconSrc   = iconHome;
-					this.walletIconSrc = iconWallet;
-					this.promoIconSrc  = iconPromo;
-					this.myIconSrc     = iconMyActive;
-				}
 			}
 		}
 	}
@@ -117,9 +72,18 @@
 		    	position: relative;
 		    	padding-top: 5px;
 
-		    	img {
-		    		width: 22px;
-					transition: all 1s;
+		    	.icon {
+		    		font-size: 20px;
+		    	}
+
+		    	.icon-default {
+		    		color: #727394;
+		    		display: block;
+		    	}
+
+		    	.icon-active {
+		    		color: #FFF;
+		    		display: none;
 		    	}
 
 		    	p {
@@ -127,25 +91,20 @@
 		    		font-size: 12px;
 		    		text-align: center;
 		    		width: 100%;
-		    		transition: all 1s;
+		    		transition: all .3s;
 		    	}
-
+		    	
 				.router-link-active {
-					p {
-						color: #FFF;
-					}
-			    }
+			    	.icon-default {
+			    		display: none;
+			    	}
 
-			    &:active {
-			    	& > div {
-				    	img {
-				    		transform: scale(2);
-				    	}
+			    	.icon-active {
+			    		display: block;
+			    	}
 
-				    	p {
-				    		font-size: 18px;
-				    		transform: scale(2);
-				    	}
+			    	p {
+			    		color: #FFF;
 			    	}
 			    }
 		    }
