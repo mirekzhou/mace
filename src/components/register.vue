@@ -96,7 +96,7 @@
 	.register {
 		background-image: url("../assets/img/sign-bg.png");
 		background-color: #fffbd4;
-		corlor: #000;
+		color: #FFF;
 		width: 100%;
 		height: 100%;
 		padding-top: .4rem;

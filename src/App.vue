@@ -21,7 +21,6 @@
 	import { mapState } from 'vuex';
 	import header from './components/header/header';
 	import footer from './components/footer';
-	import login from './components/login';
 	import sideBar from './components/sider/sideBar';
 
 	export default {
@@ -41,17 +40,12 @@
 		components: {
 			'my-header' : header,
 			'my-footer' : footer,
-			'login'     : login,
 			'side-bar'  : sideBar
 		},
 
 	  	computed: mapState({
 	  		showSideBar: function (state) {
 	  			return state.showSideBar;
-	  		},
-
-	  		showLogin: function (state) {
-	  			return state.showLogin;
 	  		}
 	  	})
 	}
