@@ -8,10 +8,10 @@
 			<div class="login-body-inner">
 				<my-input myPlaceholder="用户名" myType="text" :styleObject="inputStyleObject" v-model="username"></my-input>
 				<my-input myPlaceholder="密码" myType="password" :styleObject="inputStyleObject" v-model="userpass"></my-input>
-				<div class="button do-login">登录</div>
+				<div class="button do-login" v-on:click="doLogin">登录</div>
 				<div class="additional-info">
 					<div class="left-info">登录遇到问题？</div>
-					<div class="right-info">账号注册</div>
+					<router-link class="right-info" to="/register" tag="div">账号注册</router-link>
 				</div>
 			</div>
 		</div>
@@ -76,6 +76,12 @@
 			getLocalStorage: function () {
 				this.username = localStorage.getItem('username') || '';
 				this.userpass = localStorage.getItem('userpass') || '';
+			},
+
+			doLogin: function () {
+				this.$router.push('home');
+				this.$store.dispatch('setShowHeaderStatus', {data: true});
+				this.$store.dispatch('setShowFooterStatus', {data: true});
 			}
 		},
 

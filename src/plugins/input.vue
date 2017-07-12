@@ -1,6 +1,8 @@
 <template>
 	<div class="input">
-		<input ref="input"
+		<input style="display:none" />
+		<input autocomplete="off"
+			   ref="input"
 			   v-bind:value="value"
 			   v-on:input="updateValue($event.target.value)"
 			   v-bind:placeholder="myPlaceholder" 

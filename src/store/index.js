@@ -38,8 +38,6 @@ const state = {
 	onlineServiceUrl       :   '',      //客服url
 	gameCollections        :   [],      //游戏收藏列表
 
-	showLoginDialog        :   false,
-	showRegisterDialog     :   false,
 	showAlert              :   false,
 
 	showBack               :   false,

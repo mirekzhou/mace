@@ -7,7 +7,7 @@
 				</div>
 
 				<div class="button-zone">
-					<router-link to="/login" tag="div">
+					<router-link to="/login" tag="div"  @click.native="hideHeaderFooter">
 						<div class="button login">登录</div>
 					</router-link>
 				</div>
@@ -107,9 +107,10 @@
 				this.$store.dispatch('setSideBarStatus', {data: false});
 			},
 
-			showLogin: function () {
+			hideHeaderFooter: function () {
 				this.$store.dispatch('setSideBarStatus', {data: false});
-				this.$store.dispatch('setLoginDialogStatus', {data: true});
+				this.$store.dispatch('setShowHeaderStatus', {data: false});
+				this.$store.dispatch('setShowFooterStatus', {data: false});
 			}
 		},
 

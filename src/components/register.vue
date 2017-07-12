@@ -1,363 +1,210 @@
 <template>
-	<div class="register" v-on:keyup.enter="goRegister">
-		<my-dialog :styleObject="dialogStyleObject" :showDialog="showDialog" :showSpinner="showSpinner">
-			<div slot="header" class="register-header">
-				<div class="title">伟易博</div>
-				<div class="login">
-					<span>已有账号？</span>
-					<span class="login-now" v-on:click="goLogin">立即登录</span>
-				</div>
-				<span class="close" v-on:click="closeDialog">×</span>
+	<div class="register">
+		<div class="register-header">
+			<div>伟易博</div>
+		</div>
+
+		<div class="register-body">
+			<div class="register-body-inner">
+				<my-input myPlaceholder="用户名" myType="text" :styleObject="inputStyleObject" v-model="username"></my-input>
+				<my-input myPlaceholder="密码" myType="password" :styleObject="inputStyleObject" v-model="userpass"></my-input>
+				<my-input myPlaceholder="确认密码" myType="password" :styleObject="inputStyleObject" v-model="cuserpass"></my-input>
+				<div class="button do-register" v-on:click="doRegister">注册</div>
+				<router-link class="additional-info" to="/login" tag="div">已有账号？马上登陆</router-link>
 			</div>
+		</div>
 
-			<div slot="body" class="register-body">
-				<ul v-bind:class="{'multi-line': len > lenDivided}">
+		<div class="register-footer">
+			<div class="register-footer-inner">
+				<div class="or">
+					<span class="or-left"></span>
+					<span class="or-text">or</span>
+					<span class="or-right"></span>
+				</div>
+
+				<ul>
 					<li>
-						<span class="input-title">用户名</span>
-						<normal-input 
-							myPlaceholder="请输入您的用户名" 
-							:myStyleObject="inputStyleObject" 
-							v-model="username">	
-						</normal-input>
+						<div class="footer-icon"><i class="iconfont icon-weibo"></i></div>
+						<div class="name">微博</div>
 					</li>
-
 					<li>
-						<span class="input-title">密码</span>
-						<normal-input 
-							myType="password"
-							myPlaceholder="请输入您的密码" 
-							:myStyleObject="inputStyleObject"
-							v-model="userpass">
-						</normal-input>
+						<div class="footer-icon"><i class="iconfont icon-wechat"></i></div>
+						<div class="name">微信</div>
 					</li>
-
 					<li>
-						<span class="input-title">确认密码</span>
-						<normal-input 
-							myType="password"
-							myPlaceholder="请再次输入您的密码" 
-							:myStyleObject="inputStyleObject"
-							v-model="comfirmPassword">
-						</normal-input>
+						<div class="footer-icon"><i class="iconfont icon-qq"></i></div>
+						<div class="name">QQ</div>
 					</li>
-
-					<li v-bind:class="{'empty': !config.EmailIsRequire}">
-						<span class="input-title" v-if="config.EmailIsRequire">电子邮箱</span>
-						<normal-input 
-							 v-if="config.EmailIsRequire"
-							myPlaceholder="请输入您的电子邮箱账号" 
-							:myStyleObject="inputStyleObject"
-							v-model="email">
-						</normal-input>
-					</li>
-
-					<li v-bind:class="{'empty': !config.PhoneIsRequire}">
-						<span class="input-title" v-if="config.PhoneIsRequire">手机号码</span>
-						<normal-input 
-							 v-if="config.PhoneIsRequire"
-							myPlaceholder="请输入您的手机号码" 
-							:myStyleObject="inputStyleObject"
-							v-model="phone">
-						</normal-input>
-					</li>
-
-					<li v-bind:class="{'empty': !config.TrueNameIsRequire}">
-						<span class="input-title" v-if="config.TrueNameIsRequire">真实姓名</span>
-						<normal-input 
-							 v-if="config.TrueNameIsRequire"
-							myPlaceholder="请输入您的真实姓名" 
-							:myStyleObject="inputStyleObject"
-							v-model="truename">
-						</normal-input>
-					</li>
-
 					<li>
-						<span class="input-title">推广码</span>
-						<normal-input 
-							myPlaceholder="请输入您的推广码" 
-							:myStyleObject="inputStyleObject"
-							v-model="popularCode">
-						</normal-input>
-					</li>
-
-					<li>
-						<span class="input-title">验证码</span>
-						<normal-input 
-							myPlaceholder="请输入您的验证码" 
-							:myStyleObject="inputStyleObject"
-							v-model="verifyCode">
-						</normal-input>
+						<div class="footer-icon"><i class="iconfont icon-facebook"></i></div>
+						<div class="name">Facebook</div>
 					</li>
 				</ul>
 			</div>
-
-			<div slot="footer" class="register-footer">
-				<div class="button" v-on:click="goRegister">立即注册</div>
-			</div>
-		</my-dialog>
+		</div>
 	</div>
 </template>
 
 <script>
+	import myInput from '../plugins/input';
+	import myButton from '../plugins/button';
 	import { mapActions } from 'vuex';
 	import { mapState } from 'vuex';
-	import dialog from '../plugins/dialog';
-	import input from '../plugins/input';
-	import Config from '../config/config.js';
-	import Service from '../service/service.js';
 
 	export default {
 		name: 'register',
 		
 		data: function () {
 			return {
+				inputStyleObject: {},
 				username: '',
 				userpass: '',
-				comfirmPassword: '',
-				popularCode: '',
-				email: '',
-				phone: '',
-				truename: '',
-				verifyCode: '',
-				showSpinner: false,
-
-				dialogStyleObject: {
-					width: '380px',
-					height: 'auto',
-					paddingBottom: '20px',
-					background: 'linear-gradient(to top, #242655 40%, #333676)'
-				},
-
-				inputStyleObject: {
-					width: '320px',
-					height: '32px',
-					border: '1px solid #5d5780',
-				},
-
-				len: 8,
-				lenDivided: 5
+				cuserpass: ''
 			}
 		},
 
 		components: {
-			'my-dialog': dialog,
-			'normal-input': input
+			'my-input' : myInput
+		},
+
+		mounted: function () {
+			this.getLocalStorage();
 		},
 
 		methods: {
-			goRegister: function () {
-				var opt;
-				var callback;
-				var data = this.config;
-				var that = this;
-
-				callback = function (json) {
-					that.showSpinner = true;
-
-					if (json.StatusCode && json.StatusCode != 0) {
-						app.alert(json.Message);
-						return;
-					}
-					
-		        	that.$store.dispatch('setLoginStatus', {status: true});
-		        	that.$store.dispatch('getLoginUserInfo');
-		        	that.closeDialog();
-				};
-
-				opt = {
-					url: Config.urls.signUp,
-					data: {
-						UserName: this.username,
-						Password: this.userpass,
-						ExtendCode: this.popularCode,
-						RegWebSite: window.location.host
-					}
-				};
-
-				if (data.EmailIsRequire) {
-					opt.data.Email = this.email;
-				}
-
-				if (data.PhoneIsRequire) {
-					opt.data.Phone = this.phone;
-				}
-
-				if (data.TrueNameIsRequire) {
-					opt.data.TrueName = this.truename;
-				}
-
-				this.showSpinner = true;
-				Service.post(opt, callback);
+			getLocalStorage: function () {
+				this.username = localStorage.getItem('username') || '';
+				this.userpass = localStorage.getItem('userpass') || '';
 			},
 
-			goLogin: function () {
-				this.closeDialog();
-				this.$store.dispatch('switchLoginDialog', {status: true});
-			},
-
-			resetDialog: function () {
-				this.username        = '';
-				this.userpass        = '';
-				this.comfirmPassword = '';
-				this.popularCode     = '';
-				this.email           = '';
-				this.phone           = '';
-				this.truename        = '';
-				this.verifyCode      = '';
-			},
-
-			closeDialog: function () {
-				this.resetDialog();
-				this.$store.dispatch('switchRegisterDialog', {status: false});
+			doRegister: function () {
+				this.$router.push('home');
+				this.$store.dispatch('setShowHeaderStatus', {data: true});
+				this.$store.dispatch('setShowFooterStatus', {data: true});
 			}
 		},
 
 	  	computed: mapState({
-			//$refs 只在组件渲染完成后才填充，并且它是非响应式的。
-			//它仅仅作为一个直接访问子组件的应急方案——应当避免在模版或计算属性中使用 $refs 
-
-	  		showDialog: function (state) {
-	  			return state.showRegisterDialog;
-	  		},
-
-	  		config: function (state) {
-	  			return state.registerConfig;
+	  		showRegister: function (state) {
+	  			return state.showRegister;
 	  		}
-	  	}),
-
-	  	watch: {
-	  		config: function () {
-	  			if (!this.config.EmailIsRequire) {
-	  				this.len--;
-	  			}
-
-	  			if (!this.config.PhoneIsRequire) {
-	  				this.len--;
-	  			}
-
-	  			if (!this.config.TrueNameIsRequire) {
-	  				this.len--;
-	  			}
-
-	  			if (this.len > this.lenDivided) {
-	  				this.dialogStyleObject.width = '760px';
-	  			} else {
-	  				this.dialogStyleObject.width = '380px';
-	  			}
-	  		}
-	  	}
+	  	})
 	}
 </script>
 
 <style lang="scss" scoped>
 	.register {
-		width: 380px;
-		height: auto;
+		background-image: url("../assets/img/sign-bg.png");
+		background-color: #fffbd4;
+		corlor: #000;
+		width: 100%;
+		height: 100%;
+		padding-top: .4rem;
 		position: relative;
 
 		.register-header {
-			position: relative;
-			height: 180px;
-
-			.title {
-				color: #e9e8ec;
-			    font-size: 40px;
-			    font-weight: bold;
-				text-align: center;
-				padding-top: 62px;
-			}
-
-			.login {
-				font-size: 13px;
-				text-align: center;
-				margin-top: 12px;
-
-				.login-now {
-					color: #e9e8ec;
-					cursor: pointer;
-				}
-			}
-
-			.close {
-				cursor: pointer;
-				position: absolute;
-				top: 5px;
-				right: 15px;
-				font-size: 35px;
-
-				&:hover {
-					color: #e9e8ec;
-				}
-			}
+			width: 100%;
+			height: 1.2rem;
+			line-height: 1.2rem;
+			text-align: center;
+			font-size: .36rem;
+			font-weight: bold;
 		}
 
 		.register-body {
-			padding: 0 30px;
-			font-size: 14px;
-			position: relative;
+			.register-body-inner {
+				width: 2.5rem;
+				margin: 0 auto;
 
-			ul {
-				list-style: none;
-				width: 380px;
-			}
-
-			.multi-line {
-				width: 100%;
-				display: flex;
-				flex-direction: row;
-				flex-wrap: wrap;
-
-				li {
-					display: inline-block;
-					margin-left: 20px;
+				.input {
+					display: block;
+					width: 100%;
 				}
 
-				.empty {
-					margin-left: 0;	
+				.do-register {
+					border-radius: .2rem;
+					background-color: #09c469;
+					color: #FFF;
+					font-size: 16px;
+					width: 100%;
+					height: .36rem;
+					line-height: .36rem;
+					text-align: center;
+					margin-top: .5rem;
 				}
-			}
 
-			.input-title {
-				display: block;
-				margin-bottom: 10px;
-			}
-
-			.input {
-				margin-bottom: 20px;
-			}
-
-			.forget-password {
-				width: 100%;
-				text-align: right;
-				cursor: pointer;
-
-				&:hover {
-					color: #e9e8ec;
+				.additional-info {
+					font-size: 10px;
+					margin-top: .18rem;
+					text-align: center;
 				}
-			}
-
-			.v-spinner {
-				position: absolute;
-				left: 40%;
-				bottom: 0;
 			}
 		}
 
 		.register-footer {
-			padding: 0 30px;
-			text-align: center;
+			position: absolute;
+			bottom: 0;
+			left: 0;
+			width: 100%;
+			padding-bottom: .25rem;
 
-			.button {
-				background-color: #518743;
-				color: #FFF;
-				cursor: pointer;
-				display: inline-block;
-				font-size: 14px;
-				width: 320px;
-				height: 38px;
-				line-height: 38px;
-				text-align: center;
-				margin-top: 15px;
+			.register-footer-inner {
+				width: 2.5rem;
+				margin: 0 auto;
+
+				.or {
+					font-size: 14px;
+					height: .2rem;
+					line-height: .2rem;
+					display: flex;
+					flex-direction: row;
+					justify-content: space-between;
+					align-items: center;
+
+					.or-left {
+						border: 0;
+						height: .02rem;
+						width: 1rem;
+						background-image:-webkit-linear-gradient(to left, #7c79a8, #37355c);
+						background-image:linear-gradient(to left, #7c79a8, #37355c);
+					}
+
+					.or-right {
+						border: 0;
+						height: .02rem;
+						width: 1rem;
+						background-image:-webkit-linear-gradient(to right, #7c79a8, #37355c);
+						background-image:linear-gradient(to right, #7c79a8, #37355c);
+					}
+				}
+
+				ul {
+					list-style: none;
+					display: flex;
+					flex-direction: row;
+					justify-content: space-between;
+					align-items: center;
+					margin-top: .25rem;
+
+					li {
+						width: 20%;
+						display: flex;
+						flex-direction: column;
+						align-items: center;
+
+						.footer-icon {
+							height: .36rem;
+							line-height: .36rem;
+							border: 1px solid #7c79a8;
+							border-radius: 50%;
+							width: .36rem;
+						}
+
+						.name {
+							margin-top: .1rem;
+						}
+					}
+				}
 			}
 		}
 	}
