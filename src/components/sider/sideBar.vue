@@ -73,7 +73,10 @@
 
 		<div class="side-bar-footer">
 			<span>还没有账号？</span>
-			<div class="button signup">快速注册</div>
+
+			<router-link to="/register" tag="span"  @click.native="hideHeaderFooter">
+				<div class="button signup">快速注册</div>
+			</router-link>
 		</div>
 	</v-touch>
 </template>
