@@ -52,6 +52,8 @@
 	import myButton from '../plugins/button';
 	import { mapActions } from 'vuex';
 	import { mapState } from 'vuex';
+	import Config from '../config/config.js';
+	import Service from '../service/service.js';
 
 	export default {
 		name: 'login',
@@ -79,9 +81,34 @@
 			},
 
 			doLogin: function () {
-				this.$router.push('home');
-				this.$store.dispatch('setShowHeaderStatus', {data: true});
-				this.$store.dispatch('setShowFooterStatus', {data: true});
+				var callback;
+				var that       =  this;
+				var opt        =  {
+					url: Config.urls.signIn,
+					data: {
+						UserName: this.username,
+						Password: this.userpass,
+						LoginWebSet: window.location.host
+					}
+				};
+
+				callback = function (data) {
+					//that.showSpinner = false;
+
+					if (data.StatusCode && data.StatusCode != 0) {
+						alert(data.Message);
+						return;
+					}
+
+		        	that.$store.dispatch('setLoginStatus', {status: true});
+		        	that.$store.dispatch('getLoginUserInfo');
+					that.$router.push('home');
+					that.$store.dispatch('setShowHeaderStatus', {data: true});
+					that.$store.dispatch('setShowFooterStatus', {data: true});
+				};
+
+				//this.showSpinner = true;
+				Service.post(opt, callback);
 			}
 		},
 

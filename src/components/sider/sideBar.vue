@@ -72,11 +72,17 @@
 		</div>
 
 		<div class="side-bar-footer">
-			<span>还没有账号？</span>
+			<div v-show="!loginStatus">
+				<span>还没有账号？</span>
 
-			<router-link to="/register" tag="span"  @click.native="hideHeaderFooter">
-				<div class="button signup">快速注册</div>
-			</router-link>
+				<router-link to="/register" tag="span"  @click.native="hideHeaderFooter">
+					<div class="button signup">快速注册</div>
+				</router-link>
+			</div>
+
+			<div class="logout-zone" v-show="loginStatus">
+				<div class="logout" v-on:click="logout">退出登录</div>
+			</div>
 		</div>
 	</v-touch>
 </template>
@@ -85,6 +91,8 @@
 	import '../../assets/fonts/iconfont.css';
 	import { mapActions } from 'vuex';
 	import { mapState } from 'vuex';
+	import Config from '../../config/config.js';
+	import Service from '../../service/service.js';
 	import RadialProgressBar from 'vue-radial-progress';
 	import VueProgress from 'vue-progress';
 
@@ -114,6 +122,25 @@
 				this.$store.dispatch('setSideBarStatus', {data: false});
 				this.$store.dispatch('setShowHeaderStatus', {data: false});
 				this.$store.dispatch('setShowFooterStatus', {data: false});
+			},
+
+			logout: function () {
+				var opt;
+				var callback;
+				var that = this;
+
+		    	opt = {
+					url: Config.urls.signOut,
+					data: {}
+				};
+
+				callback = function (json) {
+		            if(json === true) {
+		            	that.$store.dispatch('setLoginStatus', {status: false});
+		            }
+				};
+
+				Service.get(opt, callback);
 			}
 		},
 
@@ -276,6 +303,22 @@
 				line-height: .25rem;
 				margin-left: .1rem;
 				text-align: center;
+			}
+
+			.logout-zone {
+				width: 100%;
+				text-align: center;
+				margin-left: -.22rem;
+
+				.logout {
+					border: 1px solid #e03638;
+					color: #e03638;
+					display: inline-block;
+					width: 1.85rem;
+					height: .3rem;
+					line-height: .3rem;
+					text-align: center;
+				}
 			}
 		}
 	}
