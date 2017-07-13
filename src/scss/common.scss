@@ -48,4 +48,37 @@ li {
     width: 100%;
 }
 
+.spinner-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(19, 16, 30, .85);
+
+    .v-spinner {
+        display: inline-block;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        margin-left: -25px;
+    }
+
+    svg {
+        display: inline-block;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        margin-left: -25px;
+    }
+
+    .spinner {
+        display: inline-block;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        margin-left: -20px;
+    }
+}
+        
 $blue1   :   #232457;

@@ -44,12 +44,17 @@
 				</ul>
 			</div>
 		</div>
+
+		<div class="spinner-overlay" v-show="showSpinner">
+			<scale-loader></scale-loader>
+		</div>
 	</div>
 </template>
 
 <script>
 	import myInput from '../plugins/input';
 	import myButton from '../plugins/button';
+	import ScaleLoader from 'vue-spinner/src/ScaleLoader.vue';
 	import { mapActions } from 'vuex';
 	import { mapState } from 'vuex';
 	import Config from '../config/config.js';
@@ -62,12 +67,14 @@
 			return {
 				inputStyleObject: {},
 				username: '',
-				userpass: ''
+				userpass: '',
+				showSpinner: false
 			}
 		},
 
 		components: {
-			'my-input' : myInput
+			'my-input' : myInput,
+			'scale-loader': ScaleLoader
 		},
 
 		mounted: function () {
@@ -93,7 +100,7 @@
 				};
 
 				callback = function (data) {
-					//that.showSpinner = false;
+					that.showSpinner = false;
 
 					if (data.StatusCode && data.StatusCode != 0) {
 						alert(data.Message);
@@ -107,7 +114,7 @@
 					that.$store.dispatch('setShowFooterStatus', {data: true});
 				};
 
-				//this.showSpinner = true;
+				this.showSpinner = true;
 				Service.post(opt, callback);
 			}
 		},
