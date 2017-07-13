@@ -25,9 +25,10 @@
 				</radial-progress-bar>
 
 				<div class="user-info">
-					<div class="name">{{userName}}</div>
-					<div class="level">用户等级:{{userLevel}}|安全等级:{{secureLevel}}</div>
-					<div class="balance">Ұ{{balance}}</div>
+					<div class="name">{{loginUserInfo.UserName}}</div>
+					<div class="level">用户等级:&nbsp;&nbsp;&nbsp;&nbsp;{{loginUserInfo.UserLevelName}}</div>
+					<div class="level">安全等级:&nbsp;&nbsp;&nbsp;&nbsp;{{secureLevel}}</div>
+					<div class="balance">Ұ{{loginUserInfo.Cash}}</div>
 				</div>
 			</div>
 
@@ -152,6 +153,10 @@
 	  	computed: mapState({
 	  		loginStatus: function (state) {
 	  			return state.loginStatus;
+	  		},
+
+	  		loginUserInfo: function (state) {
+	  			return state.loginUserInfo;
 	  		}
 	  	})
 	}
